@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@archanova/sdk": "^1.1.0",
+    "@archanova/sdk": "^1.1.2",
     "ethers": "^4.0.33"
   },
   "devDependencies": {

@@ -15,6 +15,7 @@ const {
 } = require("@archanova/sdk");
 const { anyToHex } = require("@netgum/utils");
 const { addRecord } = require("../util/dyanamo-queries");
+const { weiToEth } = require("@netgum/utils");
 
 const batchDeploy = async count => {
   const timestamp = new Date().getTime();
@@ -27,7 +28,11 @@ const batchDeploy = async count => {
       })
       .promise();
     const guardianPK = String(decryptedData.Plaintext);
-
+    console.log({
+      guardianPK,
+      'network': process.env.POA_NETWORK,
+      'env': process.env.SDK_ENV
+    })
     const provider = new ethers.providers.JsonRpcProvider(
       process.env.POA_NETWORK
     );
@@ -42,8 +47,8 @@ const batchDeploy = async count => {
       let account = await sdk.createAccount();
       console.log(account);
 
-      let gasPrice = 1000000000;
-      let gasLimit = 25000;
+      let gasPrice = 10000000000;
+      let gasLimit = 250000;
       let wei = ethers.utils.parseEther("0.009");
 
       let nonce = await guardian.getTransactionCount();
@@ -51,6 +56,10 @@ const batchDeploy = async count => {
       let nextNonce = "0x" + anyToHex(nonce + 1);
       console.log("nextNonce", nextNonce);
       console.log("sending gas");
+
+      let estimate0 = await sdk.estimateAccountDeployment();
+      console.log('total cost', weiToEth(estimate0.totalCost));
+      console.log('total gas',  weiToEth(estimate0.totalGas));
 
       await guardian.sendTransaction({
         // nonce: nextNonce,

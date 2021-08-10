@@ -1,6 +1,5 @@
 service:
   name: daily-wallet-api
-  awsKmsKeyArn: "arn:aws:kms:us-east-1:947598263436:key/bb08c235-5160-4745-bc4e-9c37aa991255"
 
 # plugins:
 #   - serverless-plugin-include-dependencies
@@ -20,8 +19,8 @@ custom:
       prod: "*"
       dev: "*"
     OMI_ADDRESS:
-      prod: "0x962E624dCfA8CfB220015A5292C15d4006c42a85"
-      dev: "0x962E624dCfA8CfB220015A5292C15d4006c42a85"
+      prod: "0x4A5f4308da47DfFBBb0048c2089f460C94a9908e"
+      dev: "0x4A5f4308da47DfFBBb0048c2089f460C94a9908e"
     APP_URL:
       prod: "https://payment.dailywallet.org/"
       dev: "https://quirky-davinci-4da258.netlify.com/"
@@ -32,13 +31,14 @@ custom:
       prod: "Xdai"
       dev: "Sokol"
     OMI_PK:
-      prod: "AQICAHj9VHz1y9MMZLBS9T+EozoW8IrZNrawGIGC2VxP6G+V1AF4IAURHxO4tQqSscFWCZTgAAAApDCBoQYJKoZIhvcNAQcGoIGTMIGQAgEAMIGKBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDEvQtg7MUYnbKgB/eQIBEIBdbh6vWnme7DK6phlQEIXAMcSNKxSIECqTInGE67VhPt93qLNEuMNpqLze0Vb23e2dj7a8Qym5YiWJBOfcLALNyAk41i9FMabdWKT8UZ1oXWZuhb2gvycOP1ERi1S/"
-      dev: "AQICAHj9VHz1y9MMZLBS9T+EozoW8IrZNrawGIGC2VxP6G+V1AF4IAURHxO4tQqSscFWCZTgAAAApDCBoQYJKoZIhvcNAQcGoIGTMIGQAgEAMIGKBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDEvQtg7MUYnbKgB/eQIBEIBdbh6vWnme7DK6phlQEIXAMcSNKxSIECqTInGE67VhPt93qLNEuMNpqLze0Vb23e2dj7a8Qym5YiWJBOfcLALNyAk41i9FMabdWKT8UZ1oXWZuhb2gvycOP1ERi1S/"
+      prod: "AQICAHiIdebLwr4+fQYsXf/r8AE6p5R5KE6IW49I4ffLW2W34QGKJOwpT8fnwh8sk7vsbWAVAAAApDCBoQYJKoZIhvcNAQcGoIGTMIGQAgEAMIGKBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDFrLE8z0xnYf/Du5JAIBEIBd53z0KGQMWY4JFFIebYKi+kIJMRfF9uIEQ0HY/wfb6MMUkHU2G4fqGsiXSL9tfyJeFjf2ndWY6SyTlAW/gXInLkDzDXCcbArH54hXEdjB/3+ntYHj4rdV6qwrpJJz"
+      dev:  "AQICAHiIdebLwr4+fQYsXf/r8AE6p5R5KE6IW49I4ffLW2W34QGKJOwpT8fnwh8sk7vsbWAVAAAApDCBoQYJKoZIhvcNAQcGoIGTMIGQAgEAMIGKBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDFrLE8z0xnYf/Du5JAIBEIBd53z0KGQMWY4JFFIebYKi+kIJMRfF9uIEQ0HY/wfb6MMUkHU2G4fqGsiXSL9tfyJeFjf2ndWY6SyTlAW/gXInLkDzDXCcbArH54hXEdjB/3+ntYHj4rdV6qwrpJJz"
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs14.x
   region: us-east-1
+  kmsKeyArn: "arn:aws:kms:us-east-1:480891322149:key/mrk-73502168b37141f1be47ba59cb17cdd3"
   stage: dev
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}

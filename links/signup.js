@@ -14,10 +14,22 @@ const {
   updateRecord
 } = require("../util/dyanamo-queries");
 
+const { BN } = require('bn.js')
+
 module.exports.signup = async (event, context) => {
   const reqData = JSON.parse(event.body);
   const timestamp = new Date().getTime();
-
+  console.log('User Device Address', reqData.userDeviceAddress)
+  console.log('ENV', {
+    DYNAMODB_TABLE: process.env.DYNAMODB_TABLE,
+    DYNAMODB_ACCOUNT_TABLE: process.env.DYNAMODB_ACCOUNT_TABLE,
+    ORIGIN: process.env.ORIGIN,
+    OMI_ADDRESS: process.env.OMI_ADDRESS,
+    APP_URL: process.env.APP_URL,
+    OMI_PK: process.env.OMI_PK,
+    POA_NETWORK: process.env.POA_NETWORK,
+    SDK_ENV: process.env.SDK_ENV,
+  });
   const authorized = validAddress(reqData.userDeviceAddress);
 
   if (!reqData || !reqData.userDeviceAddress || !authorized) {
@@ -49,16 +61,24 @@ module.exports.signup = async (event, context) => {
       };
     }
 
+    // FIX: not using OMI private key. Not sure what this encrypted data refers to.
     const guardianPK = await omiPrivateKey();
     const sdkEnv = getSdkEnvironment(SdkEnvironmentNames[process.env.SDK_ENV]);
     const sdk = new createSdk(sdkEnv);
 
     await sdk.initialize({ device: { privateKey: guardianPK } });
+    // const accounts = await sdk.getConnectedAccounts()
+    // const created = await sdk.createAccount()
+    // const connected = await sdk.connectAccount('0x06A418b0F2dbc71beF8FD7069469768607B51459');
+    // return {accounts, connected, created};
 
     const unclaimedAccounts = await getUnclaimedAccounts();
+    console.log('unclaimed', unclaimedAccounts);
     const account = unclaimedAccounts.Items[0];
+    console.log('account', account);
 
     if (account) {
+      console.log('accountAddress', account.accountAddress);
       const connectRes = await sdk.connectAccount(account.accountAddress);
       console.log("connectRes");
       console.log(connectRes);
